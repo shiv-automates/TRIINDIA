@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRIINDIA — Luxury Hotel Hero</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =========================================================
+       RESET & BASE
+       ========================================================= */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background-color: #0f0a04;
+      color: #f5ead0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* =========================================================
+       HERO SECTION
+       ========================================================= */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      background-color: #0f0a04;
+    }
+
+    /* Video Background */
+    .hero__video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
+
+    /* Dark Overlay Gradient */
+    .hero__overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: linear-gradient(
+        to bottom,
+        rgba(15, 10, 4, 0.3) 0%,
+        rgba(15, 10, 4, 0.7) 100%
+      );
+    }
+
+    /* Centered Content */
+    .hero__content {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      padding: 0 24px;
+    }
+
+    /* Section Label */
+    .hero__label {
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: #d4af37;
+      line-height: 1.5;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    /* Main Headline */
+    .hero__headline {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 72px;
+      font-weight: 400;
+      color: #f5ead0;
+      line-height: 1.0;
+      margin: 0;
+      max-width: 900px;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s ease, transform 1.2s ease;
+    }
+
+    @media (max-width: 768px) {
+      .hero__headline {
+        font-size: 42px;
+      }
+    }
+
+    /* Italic Subheading */
+    .hero__subheadline {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 22px;
+      font-weight: 300;
+      font-style: italic;
+      color: rgba(245, 234, 208, 0.7);
+      line-height: 1.5;
+      margin-top: 1.5rem;
+      max-width: 560px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .hero__subheadline {
+        font-size: 18px;
+      }
+    }
+
+    /* Gold Divider */
+    .hero__divider {
+      width: 60px;
+      height: 1px;
+      background-color: #d4af37;
+      margin: 2rem auto;
+      opacity: 0;
+      transform: scaleX(0);
+      transition: opacity 1s ease 0.4s, transform 1s ease 0.4s;
+      transform-origin: center;
+    }
+
+    /* Buttons Container */
+    .hero__buttons {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
+    }
+
+    /* Button Base */
+    .btn {
+      display: inline-block;
+      padding: 14px 36px;
+      font-family: "DM Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      line-height: 1;
+      cursor: pointer;
+      transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+    }
+
+    /* Primary — Gold Fill */
+    .btn--primary {
+      background-color: #d4af37;
+      color: #0f0a04;
+      border: 1px solid #d4af37;
+    }
+
+    .btn--primary:hover {
+      background-color: transparent;
+      color: #d4af37;
+    }
+
+    /* Secondary — Gold Outline */
+    .btn--secondary {
+      background-color: transparent;
+      color: #d4af37;
+      border: 1px solid #d4af37;
+    }
+
+    .btn--secondary:hover {
+      background-color: #d4af37;
+      color: #0f0a04;
+    }
+
+    /* =========================================================
+       SCROLL INDICATOR
+       ========================================================= */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 1s ease 1s;
+    }
+
+    .scroll-indicator__label {
+      font-family: "DM Sans", sans-serif;
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(245, 234, 208, 0.5);
+    }
+
+    .scroll-indicator__line {
+      width: 1px;
+      height: 60px;
+      background-color: rgba(212, 175, 55, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-indicator__dot {
+      width: 1px;
+      height: 16px;
+      background-color: #d4af37;
+      position: absolute;
+      top: 0;
+      left: 0;
+      animation: scrollDot 2s ease-in-out infinite;
+    }
+
+    @keyframes scrollDot {
+      0% {
+        top: -16px;
+        opacity: 0;
+      }
+      30% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 1;
+      }
+      100% {
+        top: 60px;
+        opacity: 0;
+      }
+    }
+
+    /* =========================================================
+       ENTRANCE ANIMATION STATES (applied via JS)
+       ========================================================= */
+    .hero.is-loaded .hero__label,
+    .hero.is-loaded .hero__headline,
+    .hero.is-loaded .hero__subheadline,
+    .hero.is-loaded .hero__divider,
+    .hero.is-loaded .hero__buttons,
+    .hero.is-loaded .scroll-indicator {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hero.is-loaded .hero__divider {
+      transform: scaleX(1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =========================================================
+       HERO SECTION
+       ========================================================= -->
+  <section class="hero" id="hero">
+    <!-- Video Background -->
+    <video
+      class="hero__video"
+      autoplay
+      muted
+      loop
+      playsinline
+      poster="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1920"
+    >
+      <!-- Pexels luxury hotel video (free stock) -->
+      <source
+        src="https://videos.pexels.com/video-files/3214448/3214448-uhd_2560_1440_25fps.mp4"
+        type="video/mp4"
+      />
+      <!-- Fallback message -->
+      Your browser does not support HTML5 video.
+    </video>
+
+    <!-- Dark Overlay -->
+    <div class="hero__overlay"></div>
+
+    <!-- Centered Content -->
+    <div class="hero__content">
+      <span class="hero__label">EST. 2005 · INDIA</span>
+
+      <h1 class="hero__headline">
+        Where Heritage Meets<br />Unparalleled Luxury
+      </h1>
+
+      <p class="hero__subheadline">
+        An ode to the art of Indian hospitality, where every stay
+        becomes a cherished memory.
+      </p>
+
+      <div class="hero__divider"></div>
+
+      <div class="hero__buttons">
+        <a href="#rooms" class="btn btn--primary">Explore Property</a>
+        <a href="#book" class="btn btn--secondary">Book A Stay</a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+      <span class="scroll-indicator__label">Scroll</span>
+      <div class="scroll-indicator__line">
+        <div class="scroll-indicator__dot"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ENTRANCE ANIMATION SCRIPT
+       ========================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      const hero = document.getElementById('hero');
+
+      // Trigger entrance animation after a brief delay
+      // to ensure fonts and video have started loading
+      window.addEventListener('load', function () {
+        setTimeout(function () {
+          hero.classList.add('is-loaded');
+        }, 100);
+      });
+
+      // Fallback: if load event already fired
+      if (document.readyState === 'complete') {
+        setTimeout(function () {
+          hero.classList.add('is-loaded');
+        }, 100);
+      }
+    })();
+  </script>
+
+</body>
+</html>

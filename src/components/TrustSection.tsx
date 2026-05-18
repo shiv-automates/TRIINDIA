@@ -28,7 +28,7 @@ export default function TrustSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
-              className="text-xs uppercase tracking-widest text-gray-400 font-medium mb-4 block"
+              className="text-[11px] uppercase tracking-[3px] text-gray-400 font-medium mb-4 block"
             >
               About TRIINDIA
             </motion.span>

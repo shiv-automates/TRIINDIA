@@ -79,7 +79,7 @@ export default function RoomsSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-xs uppercase tracking-widest text-gray-400 font-medium mb-4 block">
+            <span className="text-[11px] uppercase tracking-[3px] text-gray-400 font-medium mb-4 block">
               Featured Stays
             </span>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 leading-tight">
@@ -142,12 +142,10 @@ export default function RoomsSection() {
                     onMouseLeave={() => setHoveredRoom(null)}
                     onMouseMove={handleMouseMove}
                   >
-                    <motion.img
+                    <img
                       src={room.image}
                       alt={room.name}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.1 }}
-                      transition={{ duration: 0.6 }}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[600ms] ease-out"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                     
@@ -234,11 +232,11 @@ export default function RoomsSection() {
             }}
           >
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
-              <div className="relative w-[380px] h-[280px]">
+              <div className="relative w-[380px] h-[280px] overflow-hidden">
                 <img
                   src={rooms.find((r) => r.id === hoveredRoom)?.image}
                   alt={rooms.find((r) => r.id === hoveredRoom)?.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-[600ms] ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4 right-4">

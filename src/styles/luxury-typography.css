@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap');
+
+/* =========================================================
+   TRIINDIA — Luxury Typography System
+   ========================================================= */
+
+:root {
+  /* Font Families */
+  --font-display: "Cormorant Garamond", serif;
+  --font-body: "DM Sans", sans-serif;
+
+  /* Color Palette */
+  --luxury-bg: #0f0a04;
+  --luxury-cream: #f5ead0;
+  --luxury-gold: #d4af37;
+  --luxury-body: #c8b8a2;
+  --luxury-gold-muted: rgba(212, 175, 55, 0.8);
+  --luxury-charcoal: #1a1410;
+
+  /* Heading Scales */
+  --h1-size: 64px;
+  --h1-mobile: 36px;
+  --h1-lh: 1.1;
+
+  --h2-size: 42px;
+  --h2-mobile: 28px;
+  --h2-lh: 1.2;
+
+  --h3-size: 28px;
+  --h3-mobile: 22px;
+  --h3-lh: 1.3;
+
+  /* Body */
+  --body-size: 16px;
+  --body-lh: 1.8;
+
+  /* Section Label */
+  --label-size: 11px;
+  --label-tracking: 4px;
+  --label-lh: 1.5;
+}
+
+/* =========================================================
+   Base Styles
+   ========================================================= */
+
+.luxury-theme {
+  background-color: var(--luxury-bg);
+  color: var(--luxury-cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Headings — Cormorant Garamond, weight 400 */
+.luxury-theme h1,
+.luxury-theme h2,
+.luxury-theme h3,
+.luxury-heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  color: var(--luxury-cream);
+  margin: 0;
+}
+
+.luxury-theme h1 {
+  font-size: var(--h1-mobile);
+  line-height: var(--h1-lh);
+}
+
+@media (min-width: 768px) {
+  .luxury-theme h1 {
+    font-size: var(--h1-size);
+  }
+}
+
+.luxury-theme h2 {
+  font-size: var(--h2-mobile);
+  line-height: var(--h2-lh);
+}
+
+@media (min-width: 768px) {
+  .luxury-theme h2 {
+    font-size: var(--h2-size);
+  }
+}
+
+.luxury-theme h3 {
+  font-size: var(--h3-mobile);
+  line-height: var(--h3-lh);
+}
+
+@media (min-width: 768px) {
+  .luxury-theme h3 {
+    font-size: var(--h3-size);
+  }
+}
+
+/* Body Text — DM Sans, weight 300, warm taupe */
+.luxury-theme p,
+.luxury-body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--body-size);
+  line-height: var(--body-lh);
+  color: var(--luxury-body);
+  margin: 0;
+}
+
+/* Section Labels — DM Sans, micro uppercase, gold muted */
+.luxury-label,
+.luxury-theme .luxury-label {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  line-height: var(--label-lh);
+  color: var(--luxury-gold-muted);
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
+/* Taglines & Pull Quotes — Cormorant Garamond italic 300 */
+.luxury-tagline,
+.luxury-theme .luxury-tagline {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.5;
+  color: var(--luxury-cream);
+}
+
+@media (min-width: 768px) {
+  .luxury-tagline,
+  .luxury-theme .luxury-tagline {
+    font-size: 32px;
+  }
+}
+
+/* Nav Links — DM Sans 300, uppercase micro */
+.luxury-nav-link,
+.luxury-theme .luxury-nav-link {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  line-height: var(--label-lh);
+  color: var(--luxury-cream);
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.luxury-nav-link:hover,
+.luxury-theme .luxury-nav-link:hover {
+  color: var(--luxury-gold);
+}
+
+/* Buttons — DM Sans 400 */
+.luxury-btn,
+.luxury-theme .luxury-btn {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--luxury-bg);
+  background-color: var(--luxury-gold);
+  border: 1px solid var(--luxury-gold);
+  padding: 16px 40px;
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+
+.luxury-btn:hover,
+.luxury-theme .luxury-btn:hover {
+  background-color: transparent;
+  color: var(--luxury-gold);
+}
+
+.luxury-btn-outline,
+.luxury-theme .luxury-btn-outline {
+  background-color: transparent;
+  color: var(--luxury-gold);
+}
+
+.luxury-btn-outline:hover,
+.luxury-theme .luxury-btn-outline:hover {
+  background-color: var(--luxury-gold);
+  color: var(--luxury-bg);
+}
+
+/* Accent Gold Utilities */
+.luxury-gold {
+  color: var(--luxury-gold);
+}
+
+.luxury-gold-muted {
+  color: var(--luxury-gold-muted);
+}
+
+/* Horizontal Rule — subtle gold line */
+.luxury-divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--luxury-gold);
+  opacity: 0.5;
+  margin: 2rem 0;
+}

@@ -60,11 +60,13 @@ export default function Footer() {
             variants={fadeUp}
           >
             <div className="flex items-center gap-2 mb-6">
-              <img
-                src="/triindia-logo.jpeg"
-                alt="TRIINDIA"
-                className="h-8 w-auto object-contain rounded-md"
-              />
+              <div className="overflow-hidden rounded-md">
+                <img
+                  src="/triindia-logo.jpeg"
+                  alt="TRIINDIA"
+                  className="h-8 w-auto object-contain rounded-md hover:scale-105 transition-transform duration-[600ms] ease-out"
+                />
+              </div>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed mb-6">
               Your trusted partner for discovering and booking India's finest hotels. Comfort, luxury, and unforgettable experiences.
@@ -96,7 +98,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <motion.li key={link} whileHover={{ x: 5 }} className="transition-transform">
-                  <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors duration-300">
+                  <a href="#" className="text-[11px] uppercase tracking-[3px] text-gray-400 hover:text-white transition-colors duration-300">
                     {link}
                   </a>
                 </motion.li>
@@ -116,7 +118,7 @@ export default function Footer() {
             <ul className="space-y-3">
               {services.map((link) => (
                 <motion.li key={link} whileHover={{ x: 5 }} className="transition-transform">
-                  <a href="#" className="text-sm text-gray-400 hover:text-white transition-colors duration-300">
+                  <a href="#" className="text-[11px] uppercase tracking-[3px] text-gray-400 hover:text-white transition-colors duration-300">
                     {link}
                   </a>
                 </motion.li>

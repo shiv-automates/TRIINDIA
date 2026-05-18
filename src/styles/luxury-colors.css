@@ -1,0 +1,179 @@
+/* =========================================================
+   TRIINDIA — Complete Luxury Color System
+   ========================================================= */
+
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #0f0a04;
+  --color-bg-secondary: #1a1209;
+  --color-bg-tertiary: #2d1f0a;
+
+  /* Gold Accents */
+  --color-gold: #d4af37;
+  --color-gold-light: #e8c96a;
+  --color-gold-muted: rgba(212, 175, 55, 0.15);
+
+  /* Text */
+  --color-text-primary: #f5ead0;
+  --color-text-secondary: #c8b8a2;
+  --color-text-muted: #8b7355;
+
+  /* Borders */
+  --color-border: rgba(212, 175, 55, 0.2);
+  --color-border-hover: rgba(212, 175, 55, 0.5);
+}
+
+/* =========================================================
+   Global Base Application
+   ========================================================= */
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* =========================================================
+   Navigation Bar
+   ========================================================= */
+
+.luxury-nav {
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(12px);
+}
+
+.luxury-nav-link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.luxury-nav-link:hover {
+  color: var(--color-gold);
+}
+
+/* =========================================================
+   Cards
+   ========================================================= */
+
+.luxury-card {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.luxury-card:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: 0 0 40px rgba(212, 175, 55, 0.06);
+}
+
+.luxury-card-title {
+  color: var(--color-text-primary);
+}
+
+.luxury-card-body {
+  color: var(--color-text-secondary);
+}
+
+.luxury-card-caption {
+  color: var(--color-text-muted);
+}
+
+/* =========================================================
+   Buttons
+   ========================================================= */
+
+.btn-luxury {
+  display: inline-block;
+  background-color: transparent;
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  padding: 14px 36px;
+  letter-spacing: 2px;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: var(--font-body, "DM Sans", sans-serif);
+  font-weight: 400;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.btn-luxury:hover {
+  background-color: var(--color-gold);
+  color: var(--color-bg-primary);
+}
+
+.btn-luxury-filled {
+  background-color: var(--color-gold);
+  color: var(--color-bg-primary);
+}
+
+.btn-luxury-filled:hover {
+  background-color: var(--color-gold-light);
+  border-color: var(--color-gold-light);
+}
+
+/* =========================================================
+   Input Fields
+   ========================================================= */
+
+.luxury-input {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  padding: 14px 18px;
+  font-family: var(--font-body, "DM Sans", sans-serif);
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.5px;
+  outline: none;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+  width: 100%;
+}
+
+.luxury-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.luxury-input:focus {
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 3px var(--color-gold-muted);
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+.luxury-footer {
+  background-color: var(--color-bg-secondary);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.luxury-footer a {
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.luxury-footer a:hover {
+  color: var(--color-gold);
+}
+
+/* =========================================================
+   Utility Classes
+   ========================================================= */
+
+.bg-luxury-primary { background-color: var(--color-bg-primary); }
+.bg-luxury-secondary { background-color: var(--color-bg-secondary); }
+.bg-luxury-tertiary { background-color: var(--color-bg-tertiary); }
+
+.text-luxury-primary { color: var(--color-text-primary); }
+.text-luxury-secondary { color: var(--color-text-secondary); }
+.text-luxury-muted { color: var(--color-text-muted); }
+.text-luxury-gold { color: var(--color-gold); }
+
+.border-luxury { border-color: var(--color-border); }
+.border-luxury-hover { border-color: var(--color-border-hover); }

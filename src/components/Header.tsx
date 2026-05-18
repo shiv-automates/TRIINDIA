@@ -41,14 +41,15 @@ export default function Header() {
         <motion.a
           href="#"
           className="flex items-center gap-2"
-          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <img
-            src="/triindia-logo.jpeg"
-            alt="TRIINDIA"
-            className="h-9 w-auto object-contain"
-          />
+          <div className="overflow-hidden rounded-md">
+            <img
+              src="/triindia-logo.jpeg"
+              alt="TRIINDIA"
+              className="h-9 w-auto object-contain transition-transform duration-[600ms] ease-out hover:scale-105"
+            />
+          </div>
         </motion.a>
 
         {/* Desktop Nav */}
@@ -60,7 +61,7 @@ export default function Header() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * i, duration: 0.4 }}
-              className="relative px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors group"
+              className="relative px-4 py-2 text-[11px] font-medium uppercase tracking-[3px] text-gray-600 hover:text-gray-900 transition-colors group"
             >
               {link.label}
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-black rounded-full group-hover:w-3/4 transition-all duration-300" />
@@ -105,11 +106,13 @@ export default function Header() {
           <SheetContent side="right" className="w-[300px] sm:w-[400px]">
             <div className="flex flex-col h-full pt-8">
               <div className="flex items-center gap-2 mb-10">
-                <img
-                  src="/triindia-logo.jpeg"
-                  alt="TRIINDIA"
-                  className="h-8 w-auto object-contain"
-                />
+                <div className="overflow-hidden rounded-md">
+                  <img
+                    src="/triindia-logo.jpeg"
+                    alt="TRIINDIA"
+                    className="h-8 w-auto object-contain transition-transform duration-[600ms] ease-out hover:scale-105"
+                  />
+                </div>
               </div>
               <nav className="flex flex-col gap-2">
                 {navLinks.map((link, i) => (
@@ -121,7 +124,7 @@ export default function Header() {
                   >
                     <a
                       href={link.href}
-                      className="block px-4 py-3 text-base font-medium text-gray-700 hover:text-black hover:bg-gray-50 rounded-xl transition-all"
+                      className="block px-4 py-3 text-[11px] font-medium uppercase tracking-[3px] text-gray-700 hover:text-black hover:bg-gray-50 rounded-xl transition-all"
                     >
                       {link.label}
                     </a>
