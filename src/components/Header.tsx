@@ -6,14 +6,13 @@ import {
   SheetContent,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Menu, Search } from 'lucide-react';
+import { Menu } from 'lucide-react';
 
 const navLinks = [
-  { label: 'Home', href: '#' },
+  { label: 'Home', href: '#', reload: true },
   { label: 'About Us', href: '#about' },
-  { label: 'Services', href: '#services' },
-  { label: 'Facilities', href: '#facilities' },
-  { label: 'Membership', href: '#membership' },
+  { label: 'Hotels', href: '#rooms' },
+  { label: 'Contact Us', href: '#contact' },
 ];
 
 export default function Header() {
@@ -58,6 +57,12 @@ export default function Header() {
             <motion.a
               key={link.label}
               href={link.href}
+              onClick={(e) => {
+                if (link.reload) {
+                  e.preventDefault();
+                  window.location.reload();
+                }
+              }}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 * i, duration: 0.4 }}
@@ -71,29 +76,6 @@ export default function Header() {
 
         {/* Right Actions */}
         <div className="hidden md:flex items-center gap-3">
-          <motion.span
-            whileHover={{ scale: 1.05 }}
-            className="text-xs font-medium text-gray-500 cursor-pointer hover:text-gray-900 transition-colors"
-          >
-            Get the app
-          </motion.span>
-          <motion.button
-            whileHover={{ scale: 1.1, rotate: 15 }}
-            whileTap={{ scale: 0.9 }}
-            className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100 transition-colors"
-          >
-            <Search className="w-4 h-4 text-gray-600" />
-          </motion.button>
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <a href="#book">
-              <Button className="bg-black text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all duration-300 hover:shadow-lg">
-                Book Now
-              </Button>
-            </a>
-          </motion.div>
         </div>
 
         {/* Mobile Sheet */}
@@ -124,6 +106,12 @@ export default function Header() {
                   >
                     <a
                       href={link.href}
+                      onClick={(e) => {
+                        if (link.reload) {
+                          e.preventDefault();
+                          window.location.reload();
+                        }
+                      }}
                       className="block px-4 py-3 text-[11px] font-medium uppercase tracking-[3px] text-gray-700 hover:text-black hover:bg-gray-50 rounded-xl transition-all"
                     >
                       {link.label}
@@ -131,11 +119,6 @@ export default function Header() {
                   </motion.div>
                 ))}
               </nav>
-              <div className="mt-auto pb-8">
-                <Button className="w-full bg-black text-white rounded-full hover:bg-gray-800">
-                  Book Now
-                </Button>
-              </div>
             </div>
           </SheetContent>
         </Sheet>

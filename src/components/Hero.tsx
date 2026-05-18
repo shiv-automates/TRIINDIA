@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
@@ -7,7 +8,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Search, MapPin, Hotel, DollarSign, ArrowRight } from 'lucide-react';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Search,
+  MapPin,
+  Users,
+  CalendarDays,
+  ArrowRight,
+  Minus,
+  Plus,
+} from 'lucide-react';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
@@ -18,7 +28,59 @@ const fadeUp = {
   }),
 };
 
+function formatDate(date: Date | null) {
+  if (!date) return '';
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
 export default function Hero() {
+  const [guests, setGuests] = useState(2);
+  const [checkIn, setCheckIn] = useState<Date | null>(null);
+  const [checkOut, setCheckOut] = useState<Date | null>(null);
+  const [openCalendar, setOpenCalendar] = useState<'checkin' | 'checkout' | null>(null);
+
+  const checkInRef = useRef<HTMLDivElement>(null);
+  const checkOutRef = useRef<HTMLDivElement>(null);
+
+  // Close calendar when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      const target = event.target as Node;
+      if (
+        checkInRef.current &&
+        !checkInRef.current.contains(target) &&
+        checkOutRef.current &&
+        !checkOutRef.current.contains(target)
+      ) {
+        setOpenCalendar(null);
+      }
+    }
+    if (openCalendar) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [openCalendar]);
+
+  const handleCheckInSelect = (date: Date) => {
+    setCheckIn(date);
+    // If checkout is before new checkin, clear it
+    if (checkOut && date >= checkOut) {
+      setCheckOut(null);
+    }
+    setOpenCalendar('checkout');
+  };
+
+  const handleCheckOutSelect = (date: Date) => {
+    setCheckOut(date);
+    setOpenCalendar(null);
+  };
+
+  const today = new Date();
+
   return (
     <section id="book" className="relative w-full h-screen min-h-[700px] flex items-center justify-center overflow-hidden">
       {/* Background Video */}
@@ -59,7 +121,7 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-20 max-w-4xl mx-auto px-6 text-center text-white pt-16">
+      <div className="relative z-20 max-w-5xl mx-auto px-6 text-center text-white pt-16">
         <motion.h1
           custom={0}
           initial="hidden"
@@ -86,14 +148,23 @@ export default function Hero() {
           initial="hidden"
           animate="visible"
           variants={fadeUp}
-          className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 md:p-5 flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-4 shadow-2xl max-w-3xl mx-auto"
+          className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 md:p-5 flex flex-col md:flex-row items-stretch md:items-center justify-center gap-3 md:gap-0 shadow-2xl mx-auto w-fit"
         >
-          <div className="flex-1 flex flex-col gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 hover:bg-white/20 transition-colors">
+          {/* Location */}
+          <div
+            className="w-36 flex flex-col justify-center gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 h-[68px] hover:bg-white/20 transition-colors md:mx-1 cursor-pointer"
+            onClick={(e) => {
+              const trigger = e.currentTarget.querySelector('[data-slot="select-trigger"]') as HTMLButtonElement | null;
+              if (trigger && !trigger.contains(e.target as Node)) {
+                trigger.click();
+              }
+            }}
+          >
             <span className="text-[10px] uppercase tracking-wider text-white/60 font-medium flex items-center gap-1">
               <MapPin className="w-3 h-3" /> Location
             </span>
             <Select defaultValue="dubai">
-              <SelectTrigger className="bg-transparent text-sm font-medium text-white border-0 p-0 h-auto shadow-none focus:ring-0 [&>svg]:text-white/60">
+              <SelectTrigger className="bg-transparent text-sm font-medium text-white border-0 p-0 h-auto shadow-none focus:ring-0 [&>svg]:text-white/60 w-full">
                 <SelectValue placeholder="Select location" />
               </SelectTrigger>
               <SelectContent>
@@ -108,46 +179,113 @@ export default function Hero() {
 
           <div className="hidden md:block w-px h-10 bg-white/20" />
 
-          <div className="flex-1 flex flex-col gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 hover:bg-white/20 transition-colors">
+          {/* Guests */}
+          <div className="w-36 flex flex-col justify-center gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 h-[68px] hover:bg-white/20 transition-colors md:mx-1">
             <span className="text-[10px] uppercase tracking-wider text-white/60 font-medium flex items-center gap-1">
-              <Hotel className="w-3 h-3" /> Type
+              <Users className="w-3 h-3" /> Guests
             </span>
-            <Select defaultValue="luxury">
-              <SelectTrigger className="bg-transparent text-sm font-medium text-white border-0 p-0 h-auto shadow-none focus:ring-0 [&>svg]:text-white/60">
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="luxury">Luxury Hotel</SelectItem>
-                <SelectItem value="boutique">Boutique Hotel</SelectItem>
-                <SelectItem value="resort">Resort</SelectItem>
-                <SelectItem value="business">Business Hotel</SelectItem>
-              </SelectContent>
-            </Select>
+            <div className="flex items-center gap-3">
+              <button
+                type="button"
+                onClick={() => setGuests(Math.max(1, guests - 1))}
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 hover:bg-white/30 transition-colors text-white"
+              >
+                <Minus className="w-3.5 h-3.5" />
+              </button>
+              <span className="text-sm font-semibold text-white min-w-[1.5rem] text-center tabular-nums">
+                {guests}
+              </span>
+              <button
+                type="button"
+                onClick={() => setGuests(Math.min(8, guests + 1))}
+                className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 hover:bg-white/30 transition-colors text-white"
+              >
+                <Plus className="w-3.5 h-3.5" />
+              </button>
+            </div>
           </div>
 
           <div className="hidden md:block w-px h-10 bg-white/20" />
 
-          <div className="flex-1 flex flex-col gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 hover:bg-white/20 transition-colors">
+          {/* Check-in */}
+          <div
+            ref={checkInRef}
+            className="w-36 flex flex-col justify-center gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 h-[68px] hover:bg-white/20 transition-colors md:mx-1 relative cursor-pointer"
+            onClick={(e) => {
+              const btn = e.currentTarget.querySelector('button');
+              if (btn && !btn.contains(e.target as Node)) {
+                btn.click();
+              }
+            }}
+          >
             <span className="text-[10px] uppercase tracking-wider text-white/60 font-medium flex items-center gap-1">
-              <DollarSign className="w-3 h-3" /> Price
+              <CalendarDays className="w-3 h-3" /> Check-in
             </span>
-            <Select defaultValue="3k-5k">
-              <SelectTrigger className="bg-transparent text-sm font-medium text-white border-0 p-0 h-auto shadow-none focus:ring-0 [&>svg]:text-white/60">
-                <SelectValue placeholder="Select price" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="3k-5k">3,000 - 5,000</SelectItem>
-                <SelectItem value="5k-10k">5,000 - 10,000</SelectItem>
-                <SelectItem value="10k-20k">10,000 - 20,000</SelectItem>
-                <SelectItem value="20k+">20,000+</SelectItem>
-              </SelectContent>
-            </Select>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenCalendar(openCalendar === 'checkin' ? null : 'checkin');
+              }}
+              className="text-left text-sm font-medium text-white bg-transparent border-0 p-0 h-auto focus:outline-none w-full"
+            >
+              {checkIn ? formatDate(checkIn) : 'Select date'}
+            </button>
+            {openCalendar === 'checkin' && (
+              <div className="absolute top-full left-0 mt-2 z-50" onClick={(e) => e.stopPropagation()}>
+                <Calendar
+                  value={checkIn ?? undefined}
+                  onSelect={handleCheckInSelect}
+                  minDate={today}
+                />
+              </div>
+            )}
           </div>
 
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button className="bg-white text-black text-sm font-semibold px-6 py-6 rounded-2xl hover:bg-gray-100 transition-all duration-300 hover:shadow-xl flex items-center justify-center gap-2 w-full md:w-auto">
-              <Search className="w-4 h-4" />
-              Search Hotel
+          <div className="hidden md:block w-px h-10 bg-white/20" />
+
+          {/* Check-out */}
+          <div
+            ref={checkOutRef}
+            className="w-36 flex flex-col justify-center gap-1 text-left bg-white/10 rounded-2xl px-4 py-3 h-[68px] hover:bg-white/20 transition-colors md:mx-1 relative cursor-pointer"
+            onClick={(e) => {
+              const btn = e.currentTarget.querySelector('button');
+              if (btn && !btn.contains(e.target as Node)) {
+                btn.click();
+              }
+            }}
+          >
+            <span className="text-[10px] uppercase tracking-wider text-white/60 font-medium flex items-center gap-1">
+              <CalendarDays className="w-3 h-3" /> Check-out
+            </span>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setOpenCalendar(openCalendar === 'checkout' ? null : 'checkout');
+              }}
+              className="text-left text-sm font-medium text-white bg-transparent border-0 p-0 h-auto focus:outline-none w-full"
+            >
+              {checkOut ? formatDate(checkOut) : 'Select date'}
+            </button>
+            {openCalendar === 'checkout' && (
+              <div className="absolute top-full left-0 mt-2 z-50" onClick={(e) => e.stopPropagation()}>
+                <Calendar
+                  value={checkOut ?? undefined}
+                  onSelect={handleCheckOutSelect}
+                  minDate={checkIn ? new Date(checkIn.getTime() + 86400000) : today}
+                />
+              </div>
+            )}
+          </div>
+
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="md:ml-2"
+          >
+            <Button className="bg-white text-black rounded-full hover:bg-gray-100 transition-all duration-300 hover:shadow-xl flex items-center justify-center h-[68px] w-[68px] p-0">
+              <Search className="w-5 h-5" />
             </Button>
           </motion.div>
         </motion.div>

@@ -3,10 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Heart, Star, MapPin, ArrowRight, ZoomIn } from 'lucide-react';
+import { Heart, Star, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
-const categories = ['All', 'Popular', 'Luxury', 'Best Value', 'Trending'];
+
 
 const rooms = [
   {
@@ -15,7 +14,11 @@ const rooms = [
     location: 'Rishikesh, India',
     price: '3,500',
     rating: 4.8,
-    image: '/images/Ashram.jpeg',
+    images: [
+      '/ashram/WhatsApp%20Image%202026-05-12%20at%2012.54.56%20PM%20(1).jpeg',
+      '/ashram/WhatsApp%20Image%202026-05-12%20at%2012.54.57%20PM%20(1).jpeg',
+      '/ashram/WhatsApp%20Image%202026-05-12%20at%2012.54.58%20PM%20(3).jpeg',
+    ],
     tag: 'Popular',
   },
   {
@@ -24,7 +27,11 @@ const rooms = [
     location: 'Delhi, India',
     price: '4,200',
     rating: 4.9,
-    image: '/images/J Residency.jpeg',
+    images: [
+      '/j%20residency/WhatsApp%20Image%202026-05-17%20at%206.46.48%20PM%20(1).jpeg',
+      '/j%20residency/WhatsApp%20Image%202026-05-17%20at%206.46.48%20PM.jpeg',
+      '/j%20residency/WhatsApp%20Image%202026-05-17%20at%206.46.49%20PM%20(1).jpeg',
+    ],
     tag: 'Luxury',
   },
   {
@@ -33,7 +40,11 @@ const rooms = [
     location: 'Amritsar, India',
     price: '2,800',
     rating: 4.7,
-    image: '/images/Preet.jpeg',
+    images: [
+      '/preet/WhatsApp%20Image%202026-05-12%20at%2012.51.33%20PM%20(2).jpeg',
+      '/preet/WhatsApp%20Image%202026-05-12%20at%2012.51.34%20PM.jpeg',
+      '/preet/WhatsApp%20Image%202026-05-12%20at%2012.51.35%20PM%20(2).jpeg',
+    ],
     tag: 'Best Value',
   },
   {
@@ -42,21 +53,20 @@ const rooms = [
     location: 'Jaipur, India',
     price: '3,900',
     rating: 4.8,
-    image: '/images/Samrath.jpeg',
+    images: [
+      '/samrth/WhatsApp%20Image%202026-05-12%20at%2012.53.10%20PM%20(2).jpeg',
+      '/samrth/WhatsApp%20Image%202026-05-12%20at%2012.53.11%20PM%20(1).jpeg',
+      '/samrth/WhatsApp%20Image%202026-05-12%20at%2012.53.15%20PM%20(1).jpeg',
+    ],
     tag: 'Trending',
   },
 ];
 
 export default function RoomsSection() {
-  const [activeCategory, setActiveCategory] = useState('All');
   const [likedRooms, setLikedRooms] = useState<number[]>([]);
-  const [hoveredRoom, setHoveredRoom] = useState<number | null>(null);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-
-  const filteredRooms =
-    activeCategory === 'All'
-      ? rooms
-      : rooms.filter((room) => room.tag === activeCategory);
+  const [imageIndices, setImageIndices] = useState<Record<number, number>>({
+    1: 0, 2: 0, 3: 0, 4: 0,
+  });
 
   const toggleLike = (id: number) => {
     setLikedRooms((prev) =>
@@ -64,8 +74,18 @@ export default function RoomsSection() {
     );
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
-    setPopupPosition({ x: e.clientX, y: e.clientY });
+  const prevImage = (roomId: number, total: number) => {
+    setImageIndices((prev) => ({
+      ...prev,
+      [roomId]: (prev[roomId] - 1 + total) % total,
+    }));
+  };
+
+  const nextImage = (roomId: number, total: number) => {
+    setImageIndices((prev) => ({
+      ...prev,
+      [roomId]: (prev[roomId] + 1) % total,
+    }));
   };
 
   return (
@@ -87,46 +107,13 @@ export default function RoomsSection() {
               Your Stay, Our Priority
             </h2>
           </motion.div>
-          <motion.a
-            href="#"
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors group"
-          >
-            View all hotels
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </motion.a>
-        </div>
 
-        {/* Category Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="mb-10"
-        >
-          <Tabs value={activeCategory} onValueChange={setActiveCategory}>
-            <TabsList className="bg-white border border-gray-200 rounded-full p-1 h-auto">
-              {categories.map((cat) => (
-                <TabsTrigger
-                  key={cat}
-                  value={cat}
-                  className="rounded-full px-5 py-2 text-sm font-medium data-[state=active]:bg-black data-[state=active]:text-white transition-all duration-300"
-                >
-                  {cat}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
-        </motion.div>
+        </div>
 
         {/* Room Cards Grid */}
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <AnimatePresence mode="popLayout">
-            {filteredRooms.map((room, index) => (
+            {rooms.map((room, index) => (
               <motion.div
                 key={room.id}
                 layout
@@ -135,42 +122,73 @@ export default function RoomsSection() {
                 exit={{ opacity: 0, scale: 0.8, y: -30 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
               >
-                <Card className="group bg-white border-0 rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-default">
-                  <div 
-                    className="relative aspect-[4/3] overflow-hidden"
-                    onMouseEnter={() => setHoveredRoom(room.id)}
-                    onMouseLeave={() => setHoveredRoom(null)}
-                    onMouseMove={handleMouseMove}
-                  >
-                    <img
-                      src={room.image}
-                      alt={room.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[600ms] ease-out"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    
-                    {/* Hover Preview Icon */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0.5 }}
-                      animate={{ 
-                        opacity: hoveredRoom === room.id ? 1 : 0, 
-                        scale: hoveredRoom === room.id ? 1 : 0.5 
-                      }}
-                      className="absolute inset-0 flex items-center justify-center pointer-events-none"
-                    >
-                      <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg">
-                        <ZoomIn className="w-5 h-5 text-gray-800" />
-                      </div>
-                    </motion.div>
+                <Card className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:shadow-black/5 transition-all duration-300 cursor-default hover:-translate-y-1">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    {/* Image Carousel */}
+                    <div className="w-full h-full relative">
+                      <AnimatePresence mode="wait">
+                        <motion.img
+                          key={imageIndices[room.id]}
+                          src={room.images[imageIndices[room.id]]}
+                          alt={room.name}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[600ms] ease-out"
+                        />
+                      </AnimatePresence>
 
-                    <Badge className="absolute top-3 left-3 bg-white/90 text-gray-800 hover:bg-white backdrop-blur-sm font-medium text-xs">
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    </div>
+
+                    {/* Left Arrow */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevImage(room.id, room.images.length);
+                      }}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110"
+                    >
+                      <ChevronLeft className="w-4 h-4 text-gray-800" />
+                    </button>
+
+                    {/* Right Arrow */}
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage(room.id, room.images.length);
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-white hover:scale-110"
+                    >
+                      <ChevronRight className="w-4 h-4 text-gray-800" />
+                    </button>
+
+                    {/* Image Dots */}
+                    <div className="absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {room.images.map((_, i) => (
+                        <span
+                          key={i}
+                          className={`block w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                            i === imageIndices[room.id]
+                              ? 'bg-white w-4'
+                              : 'bg-white/50'
+                          }`}
+                        />
+                      ))}
+                    </div>
+
+                    <Badge className="absolute top-3 left-3 bg-white/90 text-gray-800 hover:bg-white backdrop-blur-sm font-medium text-xs z-20">
                       {room.tag}
                     </Badge>
                     <motion.button
                       whileHover={{ scale: 1.15 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => toggleLike(room.id)}
-                      className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm ${
+                      className={`absolute top-3 right-3 w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 backdrop-blur-sm z-20 ${
                         likedRooms.includes(room.id)
                           ? 'bg-red-500 text-white'
                           : 'bg-white/90 text-gray-600 hover:bg-white'
@@ -184,7 +202,7 @@ export default function RoomsSection() {
 
                   <CardContent className="p-5">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-black transition-colors">
+                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-black group-hover:translate-x-0.5 transition-all duration-300">
                         {room.name}
                       </h3>
                       <div className="flex items-center gap-1">
@@ -193,13 +211,13 @@ export default function RoomsSection() {
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1 text-gray-400 mb-4">
+                    <div className="flex items-center gap-1 text-gray-400 mb-4 group-hover:text-gray-500 transition-colors duration-300">
                       <MapPin className="w-3 h-3" />
-                      <span className="text-xs">{room.location}</span>
+                      <span className="text-xs group-hover:translate-x-0.5 transition-transform duration-300">{room.location}</span>
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <div>
+                      <div className="group-hover:translate-x-0.5 transition-transform duration-300">
                         <span className="text-lg font-bold text-gray-900">₹{room.price}</span>
                         <span className="text-xs text-gray-400"> / night</span>
                       </div>
@@ -217,44 +235,7 @@ export default function RoomsSection() {
         </motion.div>
       </div>
 
-      {/* Floating Image Popup on Hover */}
-      <AnimatePresence>
-        {hoveredRoom !== null && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed z-[100] pointer-events-none"
-            style={{
-              left: Math.min(popupPosition.x + 20, window.innerWidth - 420),
-              top: Math.min(popupPosition.y - 100, window.innerHeight - 320),
-            }}
-          >
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
-              <div className="relative w-[380px] h-[280px] overflow-hidden">
-                <img
-                  src={rooms.find((r) => r.id === hoveredRoom)?.image}
-                  alt={rooms.find((r) => r.id === hoveredRoom)?.name}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-[600ms] ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <h4 className="text-white font-semibold text-lg">
-                    {rooms.find((r) => r.id === hoveredRoom)?.name}
-                  </h4>
-                  <div className="flex items-center gap-2 mt-1">
-                    <MapPin className="w-3 h-3 text-white/80" />
-                    <span className="text-white/80 text-sm">
-                      {rooms.find((r) => r.id === hoveredRoom)?.location}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
     </section>
   );
 }

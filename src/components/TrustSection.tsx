@@ -58,10 +58,12 @@ export default function TrustSection() {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >
-              <Button className="bg-black text-white text-sm font-medium px-6 py-5 rounded-full hover:bg-gray-800 transition-all duration-300 hover:shadow-xl group">
-                Explore Hotels
-                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
-              </Button>
+              <a href="#rooms">
+                <Button className="bg-black text-white text-sm font-medium px-6 py-5 rounded-full hover:bg-gray-800 transition-all duration-300 hover:shadow-xl group">
+                  Explore Hotels
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </a>
             </motion.div>
           </motion.div>
 
