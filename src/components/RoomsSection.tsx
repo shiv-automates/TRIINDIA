@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Heart, Star, MapPin, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -19,7 +18,6 @@ const rooms = [
       '/ashram/WhatsApp%20Image%202026-05-12%20at%2012.54.57%20PM%20(1).jpeg',
       '/ashram/WhatsApp%20Image%202026-05-12%20at%2012.54.58%20PM%20(3).jpeg',
     ],
-    tag: 'Popular',
   },
   {
     id: 2,
@@ -32,7 +30,6 @@ const rooms = [
       '/j%20residency/WhatsApp%20Image%202026-05-17%20at%206.46.48%20PM.jpeg',
       '/j%20residency/WhatsApp%20Image%202026-05-17%20at%206.46.49%20PM%20(1).jpeg',
     ],
-    tag: 'Luxury',
   },
   {
     id: 3,
@@ -45,7 +42,6 @@ const rooms = [
       '/preet/WhatsApp%20Image%202026-05-12%20at%2012.51.34%20PM.jpeg',
       '/preet/WhatsApp%20Image%202026-05-12%20at%2012.51.35%20PM%20(2).jpeg',
     ],
-    tag: 'Best Value',
   },
   {
     id: 4,
@@ -58,7 +54,6 @@ const rooms = [
       '/samrth/WhatsApp%20Image%202026-05-12%20at%2012.53.11%20PM%20(1).jpeg',
       '/samrth/WhatsApp%20Image%202026-05-12%20at%2012.53.15%20PM%20(1).jpeg',
     ],
-    tag: 'Trending',
   },
 ];
 
@@ -181,9 +176,6 @@ export default function RoomsSection() {
                       ))}
                     </div>
 
-                    <Badge className="absolute top-3 left-3 bg-white/90 text-gray-800 hover:bg-white backdrop-blur-sm font-medium text-xs z-20">
-                      {room.tag}
-                    </Badge>
                     <motion.button
                       whileHover={{ scale: 1.15 }}
                       whileTap={{ scale: 0.9 }}
